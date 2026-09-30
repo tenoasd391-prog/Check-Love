@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fce4ec;
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            width: 90%;
+            max-width: 650px;
+            height: 450px;
+            background: #fff0f3;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            text-align: center;
+        }
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .screen.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        h2 {
+            color: #d81b60;
+            margin-top: 10px;
+        }
+        .btn {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+            transition: 0.2s;
+            margin-bottom: 10px;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Screen 1: Love Meter */
+        .cat-img {
+            font-size: 55px;
+            transition: transform 0.2s;
+        }
+        .meter-container {
+            width: 80%;
+            background: #f8bbd0;
+            height: 25px;
+            border-radius: 15px;
+            position: relative;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .meter-bar {
+            height: 100%;
+            width: 0%;
+            background: #ad1457;
+            border-radius: 15px;
+            transition: width 0.3s ease;
+        }
+        .percentage {
+            font-weight: bold;
+            color: #ad1457;
+            font-size: 20px;
+        }
+        .message {
+            font-size: 18px;
+            color: #880e4f;
+            font-weight: 600;
+            min-height: 30px;
+        }
+
+        /* Screen 2: Gifts */
+        .gifts-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: auto 0;
+        }
+        .gift-box {
+            font-size: 60px;
+            cursor: pointer;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .gift-box:hover {
+            transform: scale(1.1);
+        }
+
+        /* Screen 3: Bouquet */
+        .bouquet-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 75%;
+        }
+        .bouquet-img {
+            font-size: 80px;
+        }
+        .flower-notes {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 36%;
+            text-align: left;
+        }
+        .note-tag {
+            background: white;
+            padding: 5px 8px;
+            border-radius: 8px;
+            font-size: 10.5px;
+            color: #ad1457;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Screen 4: Music Player */
+        .polaroid {
+            background: white;
+            padding: 10px 10px 20px 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 160px;
+            margin: auto 0;
+        }
+        .polaroid-img {
+            width: 100%;
+            height: 110px;
+            background: #b2dfdb;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+        }
+        .music-player {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 80%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+
+        /* Screen 5: Letter */
+        .letter-content {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #4a1525;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-height: 270px;
+            overflow-y: auto;
+        }
+        .letter-content p {
+            margin: 6px 0;
+        }
+        .back-menu {
+            font-size: 12px;
+            color: #ad1457;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- File audio lokal Anda -->
+<audio id="bg-music" loop>
+    <source src="laguu.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <!-- Screen 1: Love Meter -->
+    <div id="screen-1" class="screen active">
+        <div id="cat-emoji" class="cat-img">😿</div>
+        <div class="message" id="love-message">How much do you love me?</div>
+        <div class="percentage" id="love-percentage">0%</div>
+        <div class="meter-container">
+            <div class="meter-bar" id="meter-bar"></div>
+        </div>
+        <button class="btn" id="love-btn" onclick="increaseLove()">Click Me</button>
+    </div>
+
+    <!-- Screen 2: Gift Selection -->
+    <div id="screen-2" class="screen">
+        <h2>You passed the love test</h2>
+        <p style="color: #ad1457; margin: 0; font-size: 14px;">Your surprises are waiting for you</p>
+        <div class="gifts-grid">
+            <div class="gift-box" onclick="goToScreen(3)">🎁</div>
+            <div class="gift-box" onclick="goToScreen(4)">🎁</div>
+            <div class="gift-box" onclick="goToScreen(5)">🎁</div>
+        </div>
+        <div style="font-size: 12px; color: #888;">Pilih salah satu kado di atas ya! ✨</div>
+    </div>
+
+    <!-- Screen 3: Bouquet -->
+    <div id="screen-3" class="screen">
+        <h2 style="margin: 0;">Your Bouquet</h2>
+        <div class="bouquet-card">
+            <div class="flower-notes">
+                <div class="note-tag">You make my heart bloom.</div>
+                <div class="note-tag">Life feels sweeter with you.</div>
+                <div class="note-tag">You make every moment sweeter.</div>
+            </div>
+            <div class="bouquet-img">💐</div>
+            <div class="flower-notes">
+                <div class="note-tag">I choose you every day.</div>
+                <div class="note-tag">My love for you keeps growing.</div>
+                <div class="note-tag">My heart will always choose you.</div>
+            </div>
+        </div>
+        <div class="back-menu" onclick="goToScreen(2)">← Kembali ke Pilihan Kado</div>
+    </div>
+
+    <!-- Screen 4: Music -->
+    <div id="screen-4" class="screen">
+        <div class="polaroid">
+            <div class="polaroid-img">☁️🕊️☁️</div>
+        </div>
+        <div class="music-player" onclick="toggleMusic()">
+            <div id="play-icon" style="font-size: 24px;">▶️</div>
+            <div style="text-align: left; flex-grow: 1;">
+                <div style="font-weight: bold; font-size: 13px; color: #ad1457;">BIRDS OF A FEATHER</div>
+                <div style="font-size: 11px; color: #888;">Billie Eilish</div>
+            </div>
+            <div id="music-status" style="font-size: 11px; color: #e91e63; font-weight: bold;">Play</div>
+        </div>
+        <div class="back-menu" onclick="goToScreen(2)">← Kembali ke Pilihan Kado</div>
+    </div>
+
+    <!-- Screen 5: Letter -->
+    <div id="screen-5" class="screen">
+        <h2 style="margin: 0;">A Letter From My Heart</h2>
+        <div class="letter-content">
+            <p>You make my life feel more beautiful and meaningful, and I feel so lucky to have you. I love you wholeheartedly, and I can't wait to continue loving you for the rest of my life.</p>
+            <p>You make me smile, you make me feel safe, and you bring so much happiness into my world. I know I tell you this every day, but you truly are the most beautiful person in my eyes.</p>
+            <p>Thank you for being you and for filling my heart with so much love. No matter what happens, I will always choose you.</p>
+            <p style="text-align: right; font-weight: bold; color: #d81b60; margin-top: 10px;">Always, forever. ❤</p>
+        </div>
+        <div class="back-menu" onclick="goToScreen(2)">← Kembali ke Pilihan Kado</div>
+    </div>
+</div>
+
+<script>
+    let currentLove = 0;
+    const stages = [
+        { percent: 4, msg: "Only that much?", cat: "😿" },
+        { percent: 25, msg: "Only that much?", cat: "😿" },
+        { percent: 45, msg: "That hurts...", cat: "😾" },
+        { percent: 59, msg: "Half? Seriously?", cat: "🙀" },
+        { percent: 70, msg: "Half? Seriously?", cat: "🙀" },
+        { percent: 92, msg: "Aww, that's more like it!", cat: "😸" },
+        { percent: 200, msg: "Correct answer!", cat: "😻" },
+        { percent: 1000, msg: "Correct answer!", cat: "😻" }
+    ];
+    let stageIndex = 0;
+    let isPlaying = false;
+
+    function increaseLove() {
+        // Tombol "Click Me" sekarang murni hanya menjalankan Love Meter tanpa menyalakan musik
+        if (stageIndex < stages.length) {
+            currentLove = stages[stageIndex].percent;
+            document.getElementById("love-percentage").innerText = currentLove + "%";
+            document.getElementById("meter-bar").style.width = Math.min(currentLove, 100) + "%";
+            document.getElementById("love-message").innerText = stages[stageIndex].msg;
+            document.getElementById("cat-emoji").innerText = stages[stageIndex].cat;
+            stageIndex++;
+        } else {
+            goToScreen(2);
+        }
+    }
+
+    function goToScreen(screenNumber) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen-' + screenNumber).classList.add('active');
+    }
+
+    function toggleMusic() {
+        let music = document.getElementById("bg-music");
+        let playIcon = document.getElementById("play-icon");
+        let musicStatus = document.getElementById("music-status");
+
+        if (isPlaying) {
+            music.pause();
+            playIcon.innerText = "▶️";
+            musicStatus.innerText = "Paused";
+            isPlaying = false;
+        } else {
+            music.play();
+            playIcon.innerText = "⏸️";
+            musicStatus.innerText = "Playing";
+            isPlaying = true;
+        }
+    }
+</script>
+
+</body>
+</html>
